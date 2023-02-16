@@ -4,7 +4,7 @@ import { prisma } from "../db/index.js";
 export default function createRecipesRoutes() {
   const router = express.Router();
 
-  router.get("/", async (req, res) => {
+  router.get("/", async (_req, res) => {
     try {
       const data = await prisma.recipes.findMany({
         include: {
@@ -47,7 +47,8 @@ export default function createRecipesRoutes() {
     try {
       await prisma.recipes.create({
         data: {
-          content: req.body.content,
+          name: req.body.name,
+          description: req.body.description,
           userId: 2,
         },
       });
@@ -60,6 +61,30 @@ export default function createRecipesRoutes() {
       prisma.$disconnect();
     }
   });
+
+  router.get("/:userId/:recipeId", async function(req, res){
+    try {
+        const getRecipe = await prisma.recipe.findMany({
+            where:{
+                id:parseInt(req.params.recipeId),
+                user:{
+                    id:{
+                        equals:parseInt(req.params.userId)
+                    }
+                }
+                
+            }
+        })
+        res.status(200).json({
+            sucess: true,
+            data: getRecipe
+            
+        })
+    } catch (error) {
+        console.log(error)
+    }
+   
+})
 
   return router;
 }
