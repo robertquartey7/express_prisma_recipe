@@ -21,7 +21,7 @@ export default function userRouter(){
         
         const user = await prisma.user.create({
             data: {
-                username: request.body.username 
+                name: request.body.username 
             },
         });
 

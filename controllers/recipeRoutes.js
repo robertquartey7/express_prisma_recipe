@@ -49,7 +49,7 @@ export default function createRecipesRoutes() {
         data: {
           name: req.body.name,
           description: req.body.description,
-          userId: 2,
+          userId: 1,
         },
       });
 
