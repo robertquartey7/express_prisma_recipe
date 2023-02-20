@@ -62,29 +62,78 @@ export default function createRecipesRoutes() {
     }
   });
 
-  router.get("/:userId/:recipeId", async function(req, res){
+  router.get("/:recipeId", async function (req, res) {
     try {
-        const getRecipe = await prisma.recipe.findMany({
-            where:{
-                id:parseInt(req.params.recipeId),
-                user:{
-                    id:{
-                        equals:parseInt(req.params.userId)
-                    }
-                }
-                
-            }
-        })
-        res.status(200).json({
-            sucess: true,
-            data: getRecipe
-            
-        })
+      const getRecipe = await prisma.recipe.findMany({
+        where: {
+          id: parseInt(req.params.recipeId),
+          user: {
+            id: {
+              equals: 1,
+            },
+          },
+        },
+      });
+      res.status(200).json({
+        sucess: true,
+        data: getRecipe,
+      });
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
-   
-})
+  });
+
+  // updating recipe
+
+  router.put("/:recipeId", async (req, res) => {
+    const recipeId = req.params.recipeId;
+
+    try {
+     await prisma.recipes.update({
+        where: {
+          id: parseInt(recipeId),
+         
+        },
+        data: {
+          name: req.body.name,
+          description: req.body.description,
+        },
+      });
+
+      res.status(200).json({
+        success:true,
+        message:"Updated Successfully"
+      })
+    } catch (error) {
+      console.log(error);
+      prisma.$disconnect();
+    }
+  });
+
+  // delete recipe 
+  router.delete("/:recipeId", async (req, res) => {
+    const recipeId = req.params.recipeId;
+
+    try {
+      
+      const data = await prisma.recipes.delete({
+        where:{
+          id:parseInt(recipeId)
+        }
+      })
+      es.status(200).json({
+        success:true,
+        message:"deleted Successfully"
+      })
+    } catch (error) {
+      console.log(error);
+      prisma.$disconnect();
+    }
+  });
+
+  
+rout
+
 
   return router;
 }
