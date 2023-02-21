@@ -9,7 +9,9 @@ export default async function createRecipes() {
   app.use(express.json());
 
   setupJWTStrategy(passport);
-  app.use("/recipe", createRecipesRoutes());
+  app.use("/recipe", passport.authenticate('jwt', {
+    session:false
+  }), createRecipesRoutes());
   app.use("/auth", authRouter);
 
   return app;
