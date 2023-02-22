@@ -15,7 +15,7 @@ export default function setupJWTStrategy(passport){
                 id:payload.id
             })
            } catch (error) {
-            return done(e, null)
+            return done(error, null)
            }
         })
     )
