@@ -14,7 +14,7 @@ datasource db {
 model User {
   id     Int      @unique @default(autoincrement())
   name   String   @db.VarChar(255)
-  recipe Recipes?
+  recipe Recipes[]
 }
 
 model Recipes {
