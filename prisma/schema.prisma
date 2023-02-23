@@ -15,7 +15,7 @@ model User {
   id       Int      @unique @default(autoincrement())
   username String   @db.VarChar(255)
   password String
-  recipe   Recipes?
+  recipe   Recipes[]
 }
 
 model Recipes {

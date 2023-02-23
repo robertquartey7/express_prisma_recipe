@@ -18,7 +18,7 @@ export default function userRouter(){
     })
 
     router.post("/", async(request, response) => {
-        
+        console.log('hi')
         const user = await prisma.user.create({
             data: {
                 name: request.body.username 
